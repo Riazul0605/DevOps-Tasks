@@ -1,0 +1,9 @@
+# clusters/my-k3s/infrastructure/metallb/manifests.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: metallb-system
+---
+# Apply MetalLB native manifests (controller + CRDs + speaker)
+# Download and include the YAML locally or reference remote URL
+# Example using remote URL (kustomize or kubectl supports this)
