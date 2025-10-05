@@ -19,21 +19,10 @@ spec:
     controller:
       service:
         type: LoadBalancer
-      config:
-        # tell ingress-nginx to use Lua dynamic modules
-        lua-shared-dicts: "cache:10m"
-      extraVolumes:
-        - name: lua-redirect-404
-          configMap:
-            name: lua-redirect-404
-      extraVolumeMounts:
-        - name: lua-redirect-404
-          mountPath: /etc/nginx/lua
-          readOnly: true
-      # Inject Lua hook into nginx.conf
+      # Just inject the redirect logic via NGINX snippet
       server-snippet: |
         error_page 404 = @custom_404;
 
-         location @custom_404 {
-         return 302 https://www.google.com;
-       }
+        location @custom_404 {
+          return 302 https://www.google.com;
+        }
