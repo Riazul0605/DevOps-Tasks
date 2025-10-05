@@ -15,7 +15,3 @@ spec:
         namespace: flux-system
   install:
     createNamespace: true
-  values:
-    controller:
-      service:
-        type: LoadBalancer
