@@ -23,11 +23,11 @@ spec:
       # tell ingress-nginx to use Lua dynamic modules
       lua-shared-dicts: "cache:10m"
     extraVolumes:
-      - name: lua-scripts
+      - name: lua-redirect-404
         configMap:
           name: lua-redirect-404
     extraVolumeMounts:
-      - name: lua-scripts
+      - name: lua-redirect-404
         mountPath: /etc/nginx/lua
         readOnly: true
     # Inject Lua hook into nginx.conf
