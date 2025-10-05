@@ -16,7 +16,7 @@ spec:
   install:
     createNamespace: true
   values:
-  controller:
+   controller:
     service:
       type: LoadBalancer
     config:
