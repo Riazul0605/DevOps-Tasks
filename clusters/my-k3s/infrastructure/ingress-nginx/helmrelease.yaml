@@ -19,7 +19,7 @@ spec:
     controller:
       service:
         type: LoadBalancer
-      # Just inject the redirect logic via NGINX snippet
+      # Native NGINX redirect for 404s, no Lua needed
       server-snippet: |
         error_page 404 = @custom_404;
 
