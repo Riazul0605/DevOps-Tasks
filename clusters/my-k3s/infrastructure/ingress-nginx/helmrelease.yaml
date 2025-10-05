@@ -22,13 +22,12 @@ spec:
     config:
       # tell ingress-nginx to use Lua dynamic modules
       lua-shared-dicts: "cache:10m"
-      lua-resty-redirect-404: "true"
     extraVolumes:
-      - name: lua-redirect-404
+      - name: lua-scripts
         configMap:
           name: lua-redirect-404
     extraVolumeMounts:
-      - name: lua-redirect-404
+      - name: lua-scripts
         mountPath: /etc/nginx/lua
         readOnly: true
     # Inject Lua hook into nginx.conf
@@ -38,8 +37,12 @@ spec:
       location @custom_404 {
         default_type text/html;
         content_by_lua_block {
-          local redirect = require("redirect")
-          redirect.handle_404()
-        }
-      }
-
+          local f, err = loadfile("/etc/nginx/lua/redirect.lua")
+          if not f then
+          ngx.log(ngx.ERR, "failed to load redirect.lua: ", err)
+        else
+          f()
+          handle_404()
+      end
+    }
+  }
