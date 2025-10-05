@@ -32,28 +32,29 @@ spec:
           readOnly: true
       # Inject Lua hook into nginx.conf
       server-snippet: |
-       error_page 404 = @custom_404;
+        error_page 404 = @custom_404;
 
-       location @custom_404 {
-       default_type text/html;
-       content_by_lua_block {
-       local f, err = loadfile("/etc/nginx/lua/redirect.lua")
-       if not f then
-        ngx.log(ngx.ERR, "failed to load redirect.lua: ", err)
-        return ngx.exit(500)
-       end
+        location @custom_404 {
+          default_type text/html;
+          content_by_lua_block {
+            local f, err = loadfile("/etc/nginx/lua/redirect.lua")
+            if not f then
+            ngx.log(ngx.ERR, "failed to load redirect.lua: ", err)
+              return ngx.exit(500)
+            end
 
-       local ok, res = pcall(f)
-       if not ok then
-        ngx.log(ngx.ERR, "error running redirect.lua: ", res)
-        return ngx.exit(500)
-       end
+            local ok, res = pcall(f)
+            if not ok then
+              ngx.log(ngx.ERR, "error running redirect.lua: ", res)
+              return ngx.exit(500)
+            end
 
-       if handle_404 then
-         handle_404()
-       else
-        ngx.log(ngx.ERR, "handle_404 not found in redirect.lua")
-        return ngx.exit(500)
-       end
+            if handle_404 then
+              handle_404()
+            else
+              ngx.log(ngx.ERR, "handle_404 not found in redirect.lua")
+              return ngx.exit(500)
+            end
     }
   }
+
