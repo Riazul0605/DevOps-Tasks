@@ -20,9 +20,14 @@ spec:
       service:
         type: LoadBalancer
       # Native NGINX redirect for 404s, no Lua needed
-      server-snippet: |
-        error_page 404 = @custom_404;
+      http-snippet: |
+        server {
+          listen 80 default_server;
+          listen [::]:80 default_server;
+          server_name _;
+          error_page 404 = @custom_404;
 
-        location @custom_404 {
-          return 302 https://www.google.com;
+          location @custom_404 {
+            return 302 https://www.google.com;
+          }
         }
