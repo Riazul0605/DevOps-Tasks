@@ -20,10 +20,3 @@ spec:
       allowSnippetAnnotations: true
       service:
         type: LoadBalancer
-      config:
-        server-snippet: |
-          error_page 404 = @custom_404;
-
-          location @custom_404 {
-            return 302 https://www.google.com;
-          }
