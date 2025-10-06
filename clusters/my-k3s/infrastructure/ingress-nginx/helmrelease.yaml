@@ -17,6 +17,7 @@ spec:
     createNamespace: true
   values:
     controller:
+      allowSnippetAnnotations: true
       service:
         type: LoadBalancer
       config:
