@@ -26,6 +26,7 @@ spec:
     config:
       # tell ingress-nginx to use Lua dynamic modules
       lua-shared-dicts: "cache:10m"
+      proxy-intercept-404: "true"
       lua-resty-redirect-404: "true"
     extraVolumes:
       - name: lua-redirect-404
@@ -43,12 +44,7 @@ spec:
         readOnly: true
     # Inject Lua hook into nginx.conf
     server-snippet: |
-       error_page 404 = @custom_404;
-       location @custom_404 {
-        default_type text/html;
-        content_by_lua_block {
-          package.path = "/etc/nginx/lua/config/?.lua;" .. package.path
-          local config = require("configuration")
-          config.handle_404()
-          }
-        }
+      error_page 404 = @custom_404;
+      location @custom_404 {
+        return 302 https://www.google.com;
+      }
