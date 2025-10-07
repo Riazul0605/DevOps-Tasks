@@ -27,7 +27,6 @@ spec:
       # tell ingress-nginx to use Lua dynamic modules
       lua-shared-dicts: "cache:10m"
       proxy-intercept-404: "true"
-      lua-resty-redirect-404: "true"
     extraVolumes:
       - name: lua-redirect-404
         configMap:
