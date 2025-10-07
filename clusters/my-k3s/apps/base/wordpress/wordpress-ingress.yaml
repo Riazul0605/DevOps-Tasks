@@ -6,8 +6,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/configuration-snippet: |
-      error_page 404 = @redirect_to_google;
-      location @redirect_to_google {
+      if ($status = 404) {
         return 302 https://www.google.com;
       }
 spec:
