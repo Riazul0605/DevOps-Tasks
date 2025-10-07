@@ -35,10 +35,10 @@ spec:
           name: lua-configuration
     extraVolumeMounts:
       - name: lua-redirect-404
-        mountPath: /etc/nginx/lua
+        mountPath: /etc/nginx/lua/redirect
         readOnly: true
       - name: lua-configuration
-        mountPath: /etc/nginx/lua
+        mountPath: /etc/nginx/lua/config
         readOnly: true
     # Inject Lua hook into nginx.conf
     server-snippet: |
