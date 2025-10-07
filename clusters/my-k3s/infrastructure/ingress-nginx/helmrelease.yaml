@@ -30,17 +30,23 @@ spec:
       - name: lua-redirect-404
         configMap:
           name: lua-redirect-404
+      - name: lua-configuration
+        configMap:
+          name: lua-configuration
     extraVolumeMounts:
       - name: lua-redirect-404
         mountPath: /etc/nginx/lua
         readOnly: true
+      - name: lua-configuration
+        mountPath: /etc/nginx/lua
+        readOnly: true
     # Inject Lua hook into nginx.conf
     server-snippet: |
-      error_page 404 = @custom_404;
-
-      location @custom_404 {
-        default_type text/html;
-        content_by_lua_block {
-          redirect.handle_404()
+       error_page 404 = @custom_404;
+       location @custom_404 {
+         default_type text/html;
+         content_by_lua_block {
+           local config = require("configuration")
+           config.handle_404()
+            }
         }
-      }
