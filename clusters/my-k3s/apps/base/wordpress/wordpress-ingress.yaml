@@ -4,21 +4,22 @@ metadata:
   name: wordpress
   namespace: default
   annotations:
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/server-snippet: |
-      if ($status = 404) {
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      error_page 404 = @redirect_to_google;
+      location @redirect_to_google {
         return 302 https://www.google.com;
       }
 spec:
   ingressClassName: nginx
   rules:
-  - host: app.local
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: wordpress
-            port:
-              number: 80
+    - host: app.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: wordpress
+                port:
+                  number: 80
