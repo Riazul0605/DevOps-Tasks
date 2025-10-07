@@ -23,3 +23,9 @@ spec:
       allowSnippetAnnotations: true
       service:
         type: LoadBalancer
+      config:
+        server-snippet: |
+          error_page 404 = @redirect_to_google;
+          location @redirect_to_google {
+            return 302 https://www.google.com;
+          }
