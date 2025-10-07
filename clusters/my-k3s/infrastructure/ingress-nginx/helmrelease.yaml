@@ -23,9 +23,3 @@ spec:
       allowSnippetAnnotations: true
       service:
         type: LoadBalancer
-      config:
-        # Global redirect for all 404s — safe at server level
-        server-snippet: |
-          if ($status = 404) {
-            return 302 https://www.google.com;
-          }
