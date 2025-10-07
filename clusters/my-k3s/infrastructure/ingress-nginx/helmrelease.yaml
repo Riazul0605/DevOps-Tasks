@@ -22,6 +22,7 @@ spec:
    controller:
     service:
       type: LoadBalancer
+    allowSnippetAnnotations: true
     config:
       # tell ingress-nginx to use Lua dynamic modules
       lua-shared-dicts: "cache:10m"
@@ -44,9 +45,10 @@ spec:
     server-snippet: |
        error_page 404 = @custom_404;
        location @custom_404 {
-         default_type text/html;
-         content_by_lua_block {
-           local config = require("configuration")
-           config.handle_404()
-            }
+        default_type text/html;
+        content_by_lua_block {
+          package.path = "/etc/nginx/lua/config/?.lua;" .. package.path
+          local config = require("configuration")
+          config.handle_404()
+          }
         }
