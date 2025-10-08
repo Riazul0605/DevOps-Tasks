@@ -4,13 +4,13 @@ metadata:
   name: redirect-404-plugin
   namespace: ingress-nginx
 data:
-  main.lua: |
-    local plugin = {}
+  init.lua: |
+    local _M = {}
 
-    function plugin.execute()
+    function _M:execute()
       ngx.status = ngx.HTTP_MOVED_TEMPORARILY
       ngx.header["Location"] = "https://www.google.com"
       ngx.exit(ngx.HTTP_MOVED_TEMPORARILY)
     end
 
-    return plugin
+    return _M
