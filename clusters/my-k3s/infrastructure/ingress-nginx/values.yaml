@@ -1,0 +1,17 @@
+controller:
+  extraVolumes:
+    - name: redirect-404-plugin
+      configMap:
+        name: redirect-404-plugin
+
+  extraVolumeMounts:
+    - name: redirect-404-plugin
+      mountPath: /etc/nginx/lua/custom
+
+  config:
+    # Load the Lua plugin globally
+    plugins: "redirect_404"
+    lua-shared-dicts: |
+      cache 10m
+    lua-load:
+      redirect_404: "/etc/nginx/lua/custom/redirect_404.lua"
