@@ -16,7 +16,6 @@ spec:
   values:
     controller:
       config:
-        lua-shared-dicts: "cache:10m"
         plugins: "redirect_404"
       extraVolumes:
         - name: lua-redirect-plugin
