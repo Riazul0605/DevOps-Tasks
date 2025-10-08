@@ -20,6 +20,8 @@ spec:
       retries: 3
   values:
     controller:
+      defaultBackend:
+        enabled: true
       service:
         type: LoadBalancer
       allowSnippetAnnotations: true
