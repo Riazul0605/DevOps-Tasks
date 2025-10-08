@@ -5,9 +5,12 @@ metadata:
   namespace: ingress-nginx
 data:
   main.lua: |
-    function redirect_404()
+    local plugin = {}
+
+    function plugin.execute()
       ngx.status = ngx.HTTP_MOVED_TEMPORARILY
       ngx.header["Location"] = "https://www.google.com"
       ngx.exit(ngx.HTTP_MOVED_TEMPORARILY)
     end
-    return redirect_404
+
+    return plugin
