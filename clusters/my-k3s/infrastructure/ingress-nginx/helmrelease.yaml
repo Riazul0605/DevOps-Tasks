@@ -24,3 +24,12 @@ spec:
       extraVolumeMounts:
         - name: lua-redirect-plugin
           mountPath: /etc/nginx/lua/plugins/redirect_404
+        server-snippet: |
+          location / {
+          try_files $uri @redirect_404;
+           }
+          location @redirect_404 {
+            content_by_lua_block {
+             redirect_404:execute()
+            }
+          }
