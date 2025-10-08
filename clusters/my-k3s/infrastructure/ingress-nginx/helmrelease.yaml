@@ -17,15 +17,13 @@ spec:
     controller:
       config:
         plugins: "redirect_404"
-        server-snippet: |
-          location / {
-            try_files $uri @redirect_404;
-          }
-          location @redirect_404 {
-            content_by_lua_block {
-              redirect_404:execute()
-            }
-          }
+        http-snippet: |
+         error_page 404 = @redirect_404;
+         location @redirect_404 {
+          content_by_lua_block {
+           redirect_404:execute()
+         }
+       }
       extraVolumes:
         - name: lua-redirect-plugin
           configMap:
