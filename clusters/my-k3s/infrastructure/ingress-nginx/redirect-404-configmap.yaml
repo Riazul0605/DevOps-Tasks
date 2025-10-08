@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: lua-redirect-404
+  name: redirect-404-plugin
   namespace: ingress-nginx
 data:
   redirect_404.lua: |
@@ -16,4 +16,3 @@ data:
     end
 
     return _M
-

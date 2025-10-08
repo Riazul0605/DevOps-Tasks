@@ -3,5 +3,5 @@ kind: Kustomization
 resources:
   - helmrepository.yaml
   - helmrelease.yaml
-  - lua_ingress.yaml
+  - redirect-404-configmap.yaml
   - values.yaml
