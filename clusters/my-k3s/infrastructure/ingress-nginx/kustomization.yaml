@@ -4,4 +4,3 @@ resources:
   - helmrepository.yaml
   - helmrelease.yaml
   - redirect-404-configmap.yaml
-  - values.yaml
