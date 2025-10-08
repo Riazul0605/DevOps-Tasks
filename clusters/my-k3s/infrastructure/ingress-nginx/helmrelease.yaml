@@ -13,14 +13,32 @@ spec:
         kind: HelmRepository
         name: ingress-nginx
         namespace: flux-system
+  install:
+    createNamespace: true
+  upgrade:
+    remediation:
+      retries: 3
   values:
     controller:
+      service:
+        type: LoadBalancer
+      allowSnippetAnnotations: true
       config:
-        plugins: "redirect_404"
+        lua-shared-dicts: "cache:10m"
       extraVolumes:
-        - name: lua-redirect-plugin
+        - name: lua-redirect-404
           configMap:
-            name: redirect-404-plugin
+            name: lua-redirect-404
       extraVolumeMounts:
-        - name: lua-redirect-plugin
-          mountPath: /etc/nginx/lua/plugins/redirect_404
+        - name: lua-redirect-404
+          mountPath: /etc/nginx/lua/plugins
+          readOnly: true
+      server-snippet: |
+        error_page 404 = @custom_404;
+        location @custom_404 {
+          default_type text/html;
+          content_by_lua_block {
+            local redirect = require("plugins.redirect_404.main")
+            redirect.handle_404()
+          }
+        }
