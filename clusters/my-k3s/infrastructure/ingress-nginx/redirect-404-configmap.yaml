@@ -4,7 +4,7 @@ metadata:
   name: redirect-404-plugin
   namespace: ingress-nginx
 data:
-  main.lua: |
+  init.lua: |
     local _M = {}
 
     function _M:execute()
