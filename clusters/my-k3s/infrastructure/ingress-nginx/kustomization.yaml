@@ -4,4 +4,4 @@ resources:
   - helmrepository.yaml
   - helmrelease.yaml
   - lua_ingress.yaml
-  - valued.yaml
+  - values.yaml
