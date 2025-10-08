@@ -17,11 +17,11 @@ spec:
     controller:
       config:
         lua-shared-dicts: "cache:10m"
-        plugins: "/etc/nginx/lua/redirect_404.lua"
+        plugins: "/etc/nginx/custom-lua/redirect_404.lua"
       extraVolumes:
-        - name: lua-scripts
+        - name: lua-redirect-plugin
           configMap:
             name: redirect-404-plugin
       extraVolumeMounts:
-        - name: lua-scripts
-          mountPath: /etc/nginx/lua
+        - name: lua-redirect-plugin
+          mountPath: /etc/nginx/custom-lua
