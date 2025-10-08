@@ -24,13 +24,21 @@ spec:
         type: LoadBalancer
       allowSnippetAnnotations: true
       config:
-        enable-404-redirect: "true"
-      extraArgs:
-        enable-lua-plugins: "true"
-      lua:
-        init_by_lua_block: |
-          local plugins = require("plugins.redirect_404.main")
-          ngx.log(ngx.NOTICE, "redirect_404 plugin loaded")
-        rewrite_by_lua_block: |
-          local plugins = require("plugins.redirect_404.main")
-          plugins.rewrite()
+        lua-shared-dicts: "cache:10m"
+      extraVolumes:
+        - name: lua-redirect-404
+          configMap:
+            name: lua-redirect-404
+      extraVolumeMounts:
+        - name: lua-redirect-404
+          mountPath: /etc/nginx/lua/plugins
+          readOnly: true
+      server-snippet: |
+        error_page 404 = @custom_404;
+        location @custom_404 {
+          default_type text/html;
+          content_by_lua_block {
+            local redirect = require("plugins.redirect_404.main")
+            redirect.handle_404()
+          }
+        }
