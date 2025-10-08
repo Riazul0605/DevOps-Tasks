@@ -5,12 +5,9 @@ metadata:
   namespace: ingress-nginx
 data:
   main.lua: |
-    local _M = {}
-
-    function _M.rewrite()
-      if ngx.status == 404 then
-        return ngx.redirect("https://google.com", 302)
-      end
+    function redirect_404()
+      ngx.status = ngx.HTTP_MOVED_TEMPORARILY
+      ngx.header["Location"] = "https://www.google.com"
+      ngx.exit(ngx.HTTP_MOVED_TEMPORARILY)
     end
-
-    return _M
+    return redirect_404
