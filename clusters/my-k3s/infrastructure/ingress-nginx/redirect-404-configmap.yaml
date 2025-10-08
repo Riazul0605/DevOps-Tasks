@@ -4,7 +4,7 @@ metadata:
   name: redirect-404-plugin
   namespace: ingress-nginx
 data:
-  redirect_404.lua: |
+  main.lua: |
     function redirect_404()
       ngx.status = ngx.HTTP_MOVED_TEMPORARILY
       ngx.header["Location"] = "https://www.google.com"
