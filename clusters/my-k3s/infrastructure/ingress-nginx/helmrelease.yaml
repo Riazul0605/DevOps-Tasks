@@ -20,11 +20,11 @@ spec:
       retries: 3
   values:
     controller:
+      allowSnippetAnnotations: true
       service:
         type: LoadBalancer
-      allowSnippetAnnotations: true
       config:
-        proxy-intercept-errors: "on"
+        proxy-intercept-errors: "true"
         lua-shared-dicts: "cache:10m"
       extraVolumes:
         - name: redirect-404-plugin
@@ -34,6 +34,7 @@ spec:
         - name: redirect-404-plugin
           mountPath: /etc/nginx/lua/plugins
           readOnly: true
+
       server-snippet: |
         error_page 404 = @custom_404;
         location @custom_404 {
@@ -42,5 +43,20 @@ spec:
           content_by_lua_block {
             local redirect = require("plugins.redirect_404")
             redirect.handle_404()
+          }
+        }
+
+      http-snippet: |
+        server {
+          listen 80 default_server;
+          server_name _;
+          error_page 404 = @custom_404;
+          location @custom_404 {
+            internal;
+            default_type text/html;
+            content_by_lua_block {
+              local redirect = require("plugins.redirect_404")
+              redirect.handle_404()
+            }
           }
         }

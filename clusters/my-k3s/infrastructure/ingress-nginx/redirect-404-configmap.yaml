@@ -4,7 +4,7 @@ metadata:
   name: redirect-404-plugin
   namespace: ingress-nginx
 data:
-  plugins.redirect_404.lua: |
+  redirect_404.lua: |
     local _M = {}
 
     function _M.handle_404()
