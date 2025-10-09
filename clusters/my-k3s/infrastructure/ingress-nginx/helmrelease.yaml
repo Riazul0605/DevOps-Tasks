@@ -27,11 +27,11 @@ spec:
         proxy-intercept-errors: "true"
         lua-shared-dicts: "cache:10m"
       extraVolumes:
-        - name: lua-redirect-404
+        - name: redirect-404-plugin
           configMap:
-            name: lua-redirect-404
+            name: redirect-404-plugin
       extraVolumeMounts:
-        - name: lua-redirect-404
+        - name: redirect-404-plugin
           mountPath: /etc/nginx/lua/plugins
           readOnly: true
       server-snippet: |
