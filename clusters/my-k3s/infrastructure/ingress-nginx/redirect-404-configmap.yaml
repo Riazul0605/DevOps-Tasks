@@ -7,12 +7,12 @@ data:
   init.lua: |
     local _M = {}
 
-     function _M.rewrite()
-      -- Only redirect real 404s
-      if ngx.status == 404 then
-        return ngx.redirect("https://google.com", 302)
-        end
-     end
+    _M.redirect_url = "https://www.google.com"
 
-     return _M
+    function _M.handle_404()
+        ngx.status = ngx.HTTP_MOVED_TEMPORARILY
+        ngx.header["Location"] = _M.redirect_url
+        ngx.exit(ngx.HTTP_MOVED_TEMPORARILY)
+    end
 
+    return _M
