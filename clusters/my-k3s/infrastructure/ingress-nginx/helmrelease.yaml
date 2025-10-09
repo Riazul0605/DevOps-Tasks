@@ -1,44 +1,23 @@
-apiVersion: helm.toolkit.fluxcd.io/v2
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: ingress-nginx
   namespace: ingress-nginx
 spec:
-  interval: 5m
   chart:
     spec:
       chart: ingress-nginx
-      version: 4.11.7
+      version: "5.10.0"
       sourceRef:
         kind: HelmRepository
         name: ingress-nginx
         namespace: flux-system
-  install:
-    createNamespace: true
-  upgrade:
-    remediation:
-      retries: 3
   values:
     controller:
-      service:
-        type: LoadBalancer
-      allowSnippetAnnotations: true
+      luaPlugins:
+        redirect-404:
+          name: redirect-404-plugin
+          script: redirect_404.lua
+
       config:
-        lua-shared-dicts: "cache:10m"
-      extraVolumes:
-        - name: lua-redirect-404
-          configMap:
-            name: lua-redirect-404
-      extraVolumeMounts:
-        - name: lua-redirect-404
-          mountPath: /etc/nginx/lua/plugins
-          readOnly: true
-      server-snippet: |
-        error_page 404 = @custom_404;
-        location @custom_404 {
-          default_type text/html;
-          content_by_lua_block {
-            local redirect = require("plugins.redirect_404.main")
-            redirect.handle_404()
-          }
-        }
+        plugins: "redirect-404"
