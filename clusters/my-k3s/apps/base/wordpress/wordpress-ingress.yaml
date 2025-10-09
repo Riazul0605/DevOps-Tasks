@@ -4,7 +4,6 @@ metadata:
   name: wordpress
   namespace: default
   annotations:
-    nginx.ingress.kubernetes.io/custom-http-errors: "404"
 spec:
   ingressClassName: nginx
   rules:
