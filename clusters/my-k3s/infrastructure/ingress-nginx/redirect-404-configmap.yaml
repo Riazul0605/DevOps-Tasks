@@ -4,21 +4,13 @@ metadata:
   name: redirect-404-plugin
   namespace: ingress-nginx
 data:
-  redirect_404.lua: |
+  main.lua: |
     local _M = {}
 
-    function _M.access()
-      -- This runs in the access phase
-      ngx.ctx.is_404_redirect = true
-    end
-
-    function _M.header_filter()
-      -- Detect 404 responses and redirect to Google
-      if ngx.status == ngx.HTTP_NOT_FOUND then
-        ngx.status = ngx.HTTP_MOVED_TEMPORARILY
-        ngx.header["Location"] = "https://www.google.com"
-        ngx.exit(ngx.HTTP_MOVED_TEMPORARILY)
-      end
+    function _M.handle_404()
+      ngx.status = ngx.HTTP_MOVED_TEMPORARILY
+      ngx.header["Location"] = "https://www.google.com"
+      ngx.exit(ngx.HTTP_MOVED_TEMPORARILY)
     end
 
     return _M
