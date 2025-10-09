@@ -26,8 +26,6 @@ spec:
       config:
         proxy-intercept-errors: "true"
         lua-shared-dicts: "cache:10m"
-        enable-modsecurity: "false"
-        enable-owasp-core-rules: "false"
       extraVolumes:
         - name: lua-redirect-404
           configMap:
