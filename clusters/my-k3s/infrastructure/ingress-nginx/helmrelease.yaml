@@ -40,7 +40,7 @@ spec:
           internal;
           default_type text/html;
           content_by_lua_block {
-            local redirect = require("redirect_404")
+            local redirect = require("plugin.redirect_404")
             redirect.handle_404()
           }
         }
