@@ -40,7 +40,7 @@ spec:
         location @custom_404 {
           default_type text/html;
           content_by_lua_block {
-            local redirect = require("plugins.redirect_404.main")
+            local redirect = require("plugins.redirect_404")
             redirect.handle_404()
           }
         }
