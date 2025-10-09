@@ -24,7 +24,7 @@ spec:
         type: LoadBalancer
       allowSnippetAnnotations: true
       config:
-        proxy-intercept-errors: "true"
+        proxy-intercept-errors: "on"
         lua-shared-dicts: "cache:10m"
       extraVolumes:
         - name: redirect-404-plugin
@@ -40,7 +40,7 @@ spec:
           internal;
           default_type text/html;
           content_by_lua_block {
-            local redirect = require("plugin.redirect_404")
+            local redirect = require("plugins.redirect_404")
             redirect.handle_404()
           }
         }
