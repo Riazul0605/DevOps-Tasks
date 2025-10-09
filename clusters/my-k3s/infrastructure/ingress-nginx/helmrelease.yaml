@@ -24,6 +24,7 @@ spec:
         type: LoadBalancer
       allowSnippetAnnotations: true
       config:
+        proxy-intercept-errors: "true"
         lua-shared-dicts: "cache:10m"
         enable-modsecurity: "false"
         enable-owasp-core-rules: "false"
@@ -38,6 +39,7 @@ spec:
       server-snippet: |
         error_page 404 = @custom_404;
         location @custom_404 {
+          internal;
           default_type text/html;
           content_by_lua_block {
             local redirect = require("redirect_404")
