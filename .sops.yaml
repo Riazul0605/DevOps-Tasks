@@ -1,0 +1,4 @@
+creation_rules:
+  - encryptors:
+    - age: []
+    path_regex: '.*\.sops\.ya?ml$|.*secret.*.ya?ml$'
